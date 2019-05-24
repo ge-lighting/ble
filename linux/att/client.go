@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/go-ble/ble"
+	"github.com/ge-lighting/ble"
 	"github.com/pkg/errors"
 )
 

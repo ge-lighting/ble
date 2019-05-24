@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/go-ble/ble"
+	"github.com/ge-lighting/ble"
 	"github.com/pkg/errors"
 	"github.com/urfave/cli"
 )

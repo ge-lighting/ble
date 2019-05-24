@@ -1,0 +1,4 @@
+github.com/ge-lighting/ble v0.0.0-20190521171521-147700f13610 h1:eWay3GzFqTJUEYN1BrbqdDTFeFUGmYLps8SQkn1D7Yo=
+github.com/ge-lighting/ble v0.0.0-20190521171521-147700f13610/go.mod h1:UMPB54/KFpdTdfH7Yovhk3J6kzgzE88e3QZi8cbayis=
+github.com/pkg/errors v0.8.1 h1:iURUrRGxPUNPdy5/HRSm+Yj6okJ6UtLINN0Q9M4+h3I=
+github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=

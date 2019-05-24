@@ -9,10 +9,10 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/go-ble/ble"
-	"github.com/go-ble/ble/examples/lib"
-	"github.com/go-ble/ble/examples/lib/dev"
-	"github.com/go-ble/ble/linux"
+	"github.com/ge-lighting/ble"
+	"github.com/ge-lighting/ble/examples/lib"
+	"github.com/ge-lighting/ble/examples/lib/dev"
+	"github.com/ge-lighting/ble/linux"
 	"github.com/pkg/errors"
 	"github.com/urfave/cli"
 )

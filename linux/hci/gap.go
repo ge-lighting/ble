@@ -6,9 +6,9 @@ import (
 	"net"
 	"time"
 
-	"github.com/go-ble/ble"
-	"github.com/go-ble/ble/linux/adv"
-	"github.com/go-ble/ble/linux/gatt"
+	"github.com/ge-lighting/ble"
+	"github.com/ge-lighting/ble/linux/adv"
+	"github.com/ge-lighting/ble/linux/gatt"
 	"github.com/pkg/errors"
 )
 

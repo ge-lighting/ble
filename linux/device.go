@@ -5,10 +5,10 @@ import (
 	"io"
 	"log"
 
-	"github.com/go-ble/ble"
-	"github.com/go-ble/ble/linux/att"
-	"github.com/go-ble/ble/linux/gatt"
-	"github.com/go-ble/ble/linux/hci"
+	"github.com/ge-lighting/ble"
+	"github.com/ge-lighting/ble/linux/att"
+	"github.com/ge-lighting/ble/linux/gatt"
+	"github.com/ge-lighting/ble/linux/hci"
 	"github.com/pkg/errors"
 )
 
