@@ -509,24 +509,12 @@ func (d *Device) HandleXpcEvent(event xpc.Dict, err error) {
 		d.connLock.Unlock()
 		close(c.done)
 
-	case evtCharacteristicRead:
-		// Notification
-		c := d.conn(args)
-
-		sub := c.subs[uint16(args.characteristicHandle())]
-		if sub == nil {
-			log.Printf("notified by unsubscribed handle")
-			// FIXME: should terminate the connection?
-		} else {
-			sub.fn(args.data())
-		}
-		break
-
 	case // Peripheral events
 		evtRSSIRead,
 		evtServiceDiscovered,
 		evtIncludedServicesDiscovered,
 		evtCharacteristicsDiscovered,
+		evtCharacteristicRead,
 		evtCharacteristicWritten,
 		evtNotificationValueSet,
 		evtDescriptorsDiscovered,
