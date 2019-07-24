@@ -372,7 +372,7 @@ func (d *Device) Dial(ctx context.Context, a ble.Addr) (ble.Client, error) {
 	err := d.sendCmd(d.cm, cmdConnect, xpc.Dict{
 		"kCBMsgArgDeviceUUID": xpc.MakeUUID(a.String()),
 		"kCBMsgArgOptions": xpc.Dict{
-			"kCBConnectOptionNotifyOnDisconnection": 1,
+			"kCBConnectOptionNotifyOnDisconnection": 0,
 		},
 	})
 	if err != nil {
@@ -400,7 +400,7 @@ func (d *Device) HandleXpcEvent(event xpc.Dict, err error) {
 	}
 	m := msg(event)
 	args := msg(msg(event).args())
-	logger.Info("recv", "id", m.id(), "args", fmt.Sprintf("%v", m.args()))
+	//fmt.Printf("recv id [%v], args [%v]\n", m.id(), m.args())
 
 	switch m.id() {
 	case // Device event
@@ -509,12 +509,24 @@ func (d *Device) HandleXpcEvent(event xpc.Dict, err error) {
 		d.connLock.Unlock()
 		close(c.done)
 
+	case evtCharacteristicRead:
+		// Notification
+		c := d.conn(args)
+
+		sub := c.subs[uint16(args.characteristicHandle())]
+		if sub == nil {
+			d.conn(args).rspc <- m
+		} else {
+			sub.fn(args.data())
+		}
+		break // Notification
+
 	case // Peripheral events
 		evtRSSIRead,
 		evtServiceDiscovered,
 		evtIncludedServicesDiscovered,
 		evtCharacteristicsDiscovered,
-		evtCharacteristicRead,
+		//evtCharacteristicRead,
 		evtCharacteristicWritten,
 		evtNotificationValueSet,
 		evtDescriptorsDiscovered,
