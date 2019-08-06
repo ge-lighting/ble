@@ -50,6 +50,18 @@ func (cln *Client) DiscoverProfile(force bool) (*ble.Profile, error) {
 		return nil, fmt.Errorf("can't discover services: %s", err)
 	}
 	for _, s := range ss {
+		badBoi := ble.UUID([]byte{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 32, 25})
+		if func() bool {
+			for i := range s.UUID {
+				if s.UUID[i] != badBoi[i] {
+					return false
+				}
+			}
+			return true
+		}() {
+			// fmt.Println("skip dat bad boi service ###")
+			continue
+		}
 		cs, err := cln.DiscoverCharacteristics(nil, s)
 		if err != nil {
 			return nil, fmt.Errorf("can't discover characteristics: %s", err)

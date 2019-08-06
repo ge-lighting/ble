@@ -174,6 +174,7 @@ func trap(ctx context.Context) chan<- os.Signal {
 		case <-sigs:
 			cancel()
 		case <-ctx.Done():
+			// TODO: how to handle a timeout????
 		}
 	}()
 	return sigs

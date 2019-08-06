@@ -395,7 +395,7 @@ func (d *Device) Stop() error {
 // HandleXpcEvent process Device events and asynchronous errors.
 func (d *Device) HandleXpcEvent(event xpc.Dict, err error) {
 	if err != nil {
-		log.Println("error:", err)
+		log.Println("xpc connecton error in event handler:", err)
 		return
 	}
 	m := msg(event)
