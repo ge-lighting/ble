@@ -515,12 +515,30 @@ func (d *Device) HandleXpcEvent(event xpc.Dict, err error) {
 
 		sub := c.subs[uint16(args.characteristicHandle())]
 		if sub == nil {
+			log.Printf("notified by unsubscribed handle")
+			// FIXME: should terminate the connection?
 			d.conn(args).rspc <- m
+			//things := make(chan msg)
+			//things = <-m
+
+			fmt.Printf("Notification [% X]\n", d.conn(args).rspc)
 		} else {
 			sub.fn(args.data())
 		}
-		break // Notification
+		break
+		/*
+			case evtCharacteristicRead:
+				// Notification
+				c := d.conn(args)
 
+				sub := c.subs[uint16(args.characteristicHandle())]
+				if sub == nil {
+					d.conn(args).rspc <- m
+				} else {
+					sub.fn(args.data())
+				}
+				break // Notification
+		*/
 	case // Peripheral events
 		evtRSSIRead,
 		evtServiceDiscovered,

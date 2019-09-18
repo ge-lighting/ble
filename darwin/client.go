@@ -268,22 +268,27 @@ func (cln *Client) Subscribe(c *ble.Characteristic, ind bool, fn ble.Notificatio
 	cln.conn.Lock()
 	defer cln.conn.Unlock()
 	cln.conn.subs[c.Handle] = &sub{fn: fn, char: c}
-	rsp, err := cln.conn.sendReq(cmdSubscribeCharacteristic, xpc.Dict{
-		"kCBMsgArgDeviceUUID":                cln.id,
-		"kCBMsgArgCharacteristicHandle":      c.Handle,
-		"kCBMsgArgCharacteristicValueHandle": c.ValueHandle,
-		"kCBMsgArgState":                     1,
-	})
-	if err != nil {
-		fmt.Printf("[client.go Subscribe] error outside of response: %v", err)
-		delete(cln.conn.subs, c.Handle)
-		return err
-	}
-	if err := rsp.err(); err != nil {
-		fmt.Printf("[client.go Subscribe] error inside of response: %v", err)
-		delete(cln.conn.subs, c.Handle)
-		return err
-	}
+	/*
+		fmt.Printf("Sending in the request\n")
+		//rsp, err := cln.conn.sendReq(cmdSubscribeCharacteristic, xpc.Dict{
+		rsp, err := cln.conn.sendReq(18, xpc.Dict{
+			"kCBMsgArgDeviceUUID":                cln.id,
+			"kCBMsgArgCharacteristicHandle":      c.Handle,
+			"kCBMsgArgCharacteristicValueHandle": c.ValueHandle,
+			"kCBMsgArgState":                     1,
+		})
+		fmt.Printf("Sent the request\n")
+		if err != nil {
+			fmt.Printf("[client.go Subscribe] error outside of response: %v\n", err)
+			delete(cln.conn.subs, c.Handle)
+			return err
+		}
+		if err := rsp.err(); err != nil {
+			fmt.Printf("[client.go Subscribe] error inside of response: %v\n", err)
+			delete(cln.conn.subs, c.Handle)
+			return err
+		}
+	*/
 	return nil
 }
 
