@@ -24,7 +24,7 @@ func (m msg) characteristicHandle() int {
 	return xpc.Dict(m).MustGetInt("kCBMsgArgCharacteristicHandle")
 }
 func (m msg) data() []byte {
-	// return xpc.Dict(m).MustGetBytes("kCBMsgArgData")
+	return xpc.Dict(m).MustGetBytes("kCBMsgArgData")
 	v := m["kCBMsgArgData"]
 	switch v.(type) {
 	case string:

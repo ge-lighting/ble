@@ -481,6 +481,7 @@ func (d *Device) HandleXpcEvent(event xpc.Dict, err error) {
 		}
 
 	case evtSubscribe:
+		fmt.Printf("Someone subscribed to me\n")
 		// characteristic is subscribed by remote central.
 		d.conn(args).subscribed(d.chars[args.attributeID()])
 
@@ -515,12 +516,16 @@ func (d *Device) HandleXpcEvent(event xpc.Dict, err error) {
 
 		sub := c.subs[uint16(args.characteristicHandle())]
 		if sub == nil {
+			// Probably shouldn't read this off the wire?
 			d.conn(args).rspc <- m
+			fmt.Printf("got notification?!?! [%+x]\n", d.conn(args).rspc)
 		} else {
+			d.conn(args).rspc <- m
+			fmt.Printf("got notification?!?! [%+V]\n", d.conn(args).rspc)
+			fmt.Printf("subscribed [%+x]\n", args.data())
 			sub.fn(args.data())
 		}
 		break // Notification
-
 	case // Peripheral events
 		evtRSSIRead,
 		evtServiceDiscovered,
@@ -532,7 +537,15 @@ func (d *Device) HandleXpcEvent(event xpc.Dict, err error) {
 		evtDescriptorsDiscovered,
 		evtDescriptorRead,
 		evtDescriptorWritten:
-
+		/*
+			c := d.conn(args)
+			sub := c.subs[uint16(args.characteristicHandle())]
+			if sub != nil {
+				// Probably shouldn't read this off the wire?
+				fmt.Printf("got notification?!?! [%+x]\n", d.conn(args).rspc)
+				sub.fn(args.data())
+			}
+		*/
 		d.conn(args).rspc <- m
 
 	default:
