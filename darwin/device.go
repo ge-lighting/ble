@@ -518,11 +518,8 @@ func (d *Device) HandleXpcEvent(event xpc.Dict, err error) {
 		if sub == nil {
 			// Probably shouldn't read this off the wire?
 			d.conn(args).rspc <- m
-			fmt.Printf("got notification?!?! [%+x]\n", d.conn(args).rspc)
 		} else {
 			d.conn(args).rspc <- m
-			fmt.Printf("got notification?!?! [%+V]\n", d.conn(args).rspc)
-			fmt.Printf("subscribed [%+x]\n", args.data())
 			sub.fn(args.data())
 		}
 		break // Notification

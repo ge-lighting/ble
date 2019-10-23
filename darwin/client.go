@@ -252,33 +252,6 @@ func (cln *Client) ExchangeMTU(mtu int) (int, error) {
 	return cln.conn.TxMTU(), nil
 }
 
-func (cln *Client) Subscribe(c *ble.Characteristic, ind bool, fn ble.NotificationHandler) error {
-	cln.conn.Lock()
-	defer cln.conn.Unlock()
-	fmt.Printf("ble characteristic [%+X]\n", *c)
-	cln.conn.subs[c.Handle] = &sub{fn: fn, char: c}
-	/*
-		rsp, err := cln.conn.sendReq(cmdSubscribeCharacteristic, xpc.Dict{
-			"kCBMsgArgDeviceUUID":                cln.id,
-			"kCBMsgArgCharacteristicHandle":      c.Handle,
-			"kCBMsgArgCharacteristicValueHandle": c.ValueHandle,
-			"kCBMsgArgState":                     1,
-		})
-		if err != nil {
-			fmt.Printf("[client.go Subscribe] error outside of response: %v", err)
-			delete(cln.conn.subs, c.Handle)
-			return err
-		}
-		if err := rsp.err(); err != nil {
-			fmt.Printf("[client.go Subscribe] error inside of response: %v", err)
-			delete(cln.conn.subs, c.Handle)
-			return err
-		}
-	*/
-	return nil
-}
-
-/*
 // Subscribe subscribes to indication (if ind is set true), or notification of a
 // characteristic value. [Vol 3, Part G, 4.10 & 4.11]
 func (cln *Client) Subscribe(c *ble.Characteristic, ind bool, fn ble.NotificationHandler) error {
@@ -301,7 +274,6 @@ func (cln *Client) Subscribe(c *ble.Characteristic, ind bool, fn ble.Notificatio
 	}
 	return nil
 }
-*/
 
 // Unsubscribe unsubscribes to indication (if ind is set true), or notification
 // of a specified characteristic value. [Vol 3, Part G, 4.10 & 4.11]
