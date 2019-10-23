@@ -1,7 +1,7 @@
 package darwin
 
 import (
-	"github.com/raff/goble/xpc"
+	"github.com/ge-lighting/goble/xpc"
 )
 
 // xpc command IDs are OS X version specific, so we will use a map
@@ -162,7 +162,7 @@ func initXpcIDs() error {
 		evtUnsubscribe = 33
 		evtConfirmation = 34
 		evtATTMTU = 57
-		evtSlaveConnectionComplete = 60 // should be called params update
+		evtSlaveConnectionComplete = 60  // should be called params update
 		evtMasterConnectionComplete = 59 //not confident
 		evtIncludedServicesDiscovered = 76
 

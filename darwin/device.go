@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/ge-lighting/ble"
+	"github.com/ge-lighting/goble/xpc"
 	"github.com/pkg/errors"
-	"github.com/raff/goble/xpc"
 
 	"sync"
 )

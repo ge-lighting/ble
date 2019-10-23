@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ge-lighting/ble"
-	"github.com/raff/goble/xpc"
+	"github.com/ge-lighting/goble/xpc"
 )
 
 // A Client is a GATT client.

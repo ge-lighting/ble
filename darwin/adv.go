@@ -2,7 +2,7 @@ package darwin
 
 import (
 	"github.com/ge-lighting/ble"
-	"github.com/raff/goble/xpc"
+	"github.com/ge-lighting/goble/xpc"
 )
 
 type adv struct {

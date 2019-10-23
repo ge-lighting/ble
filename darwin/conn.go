@@ -6,7 +6,7 @@ import (
 	"sync"
 
 	"github.com/ge-lighting/ble"
-	"github.com/raff/goble/xpc"
+	"github.com/ge-lighting/goble/xpc"
 )
 
 func newConn(d *Device, a ble.Addr, rxMTU int) *conn {
