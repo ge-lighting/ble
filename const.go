@@ -21,8 +21,9 @@ var (
 	IncludeUUID          = UUID16(0x2802)
 	CharacteristicUUID   = UUID16(0x2803)
 
-	ClientCharacteristicConfigUUID = UUID16(0x2902)
-	ServerCharacteristicConfigUUID = UUID16(0x2903)
+	ClientCharacteristicConfigUUIDReadable = UUID16(0x2901)
+	ClientCharacteristicConfigUUID         = UUID16(0x2902)
+	ServerCharacteristicConfigUUID         = UUID16(0x2903)
 
 	DeviceNameUUID        = UUID16(0x2A00)
 	AppearanceUUID        = UUID16(0x2A01)

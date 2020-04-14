@@ -177,17 +177,19 @@ func (p *Client) DiscoverDescriptors(filter []ble.UUID, c *ble.Characteristic) (
 	defer p.Unlock()
 	start := c.ValueHandle + 1
 	for start <= c.EndHandle {
-		fmt, b, err := p.ac.FindInformation(start, c.EndHandle)
+		format, b, err := p.ac.FindInformation(start, c.EndHandle)
 		if err == ble.ErrAttrNotFound {
 			break
 		} else if err != nil {
 			return nil, err
 		}
+
 		length := 2 + 2
-		if fmt == 0x02 {
+		if format == 0x02 {
 			length = 2 + 16
 		}
 		for len(b) != 0 {
+			b[02] = 0x02
 			h := binary.LittleEndian.Uint16(b[:2])
 			u := ble.UUID(b[2:length])
 			d := &ble.Descriptor{UUID: u, Handle: h}
@@ -197,6 +199,14 @@ func (p *Client) DiscoverDescriptors(filter []ble.UUID, c *ble.Characteristic) (
 			if u.Equal(ble.ClientCharacteristicConfigUUID) {
 				c.CCCD = d
 			}
+			if u.Equal(ble.ClientCharacteristicConfigUUIDReadable) {
+				// Telink does not set the machine readable descriptor, do it for them
+				hackDesc := &ble.Descriptor{UUID: ble.ClientCharacteristicConfigUUID, Handle: h, Property: 2}
+				fmt.Printf("Setting TELINK descriptor [%s]\n", hackDesc)
+				c.Descriptors = append(c.Descriptors, hackDesc)
+				c.CCCD = hackDesc
+			}
+
 			start = h + 1
 			b = b[length:]
 		}
@@ -261,6 +271,7 @@ func (p *Client) ReadDescriptor(d *ble.Descriptor) ([]byte, error) {
 		return nil, err
 	}
 
+	// Telink does not set the machine descriptor. Do it for them
 	d.Value = val
 	return val, nil
 }
@@ -296,6 +307,7 @@ func (p *Client) Subscribe(c *ble.Characteristic, ind bool, h ble.NotificationHa
 	if c.CCCD == nil {
 		return fmt.Errorf("CCCD not found")
 	}
+
 	if ind {
 		return p.setHandlers(c.CCCD.Handle, c.ValueHandle, cccIndicate, h)
 	}
@@ -317,6 +329,7 @@ func (p *Client) Unsubscribe(c *ble.Characteristic, ind bool) error {
 }
 
 func (p *Client) setHandlers(cccdh, vh, flag uint16, h ble.NotificationHandler) error {
+
 	s, ok := p.subs[vh]
 	if !ok {
 		s = &sub{cccdh, 0x0000, nil, nil}
@@ -340,6 +353,7 @@ func (p *Client) setHandlers(cccdh, vh, flag uint16, h ble.NotificationHandler) 
 	} else {
 		s.iHandler = h
 	}
+
 	return p.ac.Write(s.cccdh, v)
 }
 
